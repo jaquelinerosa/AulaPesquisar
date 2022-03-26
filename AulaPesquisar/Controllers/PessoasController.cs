@@ -12,7 +12,7 @@ namespace AulaPesquisar.Controllers
             db = _db;   
         }
 
-        public IActionResult Index(string query) 
+        public IActionResult Index(string query,string itembusca) 
 
         {
             if (string.IsNullOrEmpty(query))
@@ -21,11 +21,31 @@ namespace AulaPesquisar.Controllers
             }
             else
             {
-                return View(db.PESSOAS.Where(a => a.nome.Contains(query) ||
-                    a.cpf.Contains(query)||
-                    a.rg.Contains(query)
-                    ));
+                switch (itembusca)
+                {
+                    default:
 
+                 return View(db.PESSOAS.Where(a => a.nome.Contains(query) ||
+                   a.cpf.Contains(query) ||
+                   a.rg.Contains(query)
+                   ));
+
+                    case "Idade":
+                        return View(db.PESSOAS.Where(a => a.idade == query));
+
+                    case "CPF":
+                        return View(db.PESSOAS.Where(a => a.cpf == query));
+
+                    case "RG":
+                        return View(db.PESSOAS.Where(a => a.rg == query));
+
+                    case "NOME":
+                        return View(db.PESSOAS.Where(a => a.nome.Contains(query)));
+
+                    
+                        
+                }
+                   
             }
             
         }
